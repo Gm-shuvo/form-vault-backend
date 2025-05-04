@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
-import bcrypt from 'bcryptjs/umd/types';
 
 export const register = async (req: Request, res: Response) => {
   try {
