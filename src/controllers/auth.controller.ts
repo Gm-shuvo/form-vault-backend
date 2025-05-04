@@ -39,3 +39,14 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 export const logout = (req: Request, res: Response): Response => {
   return res.clearCookie('token').json({ message: 'Logged out' });
 };
+
+export const getMe = async (req: Request, res: Response): Promise<Response> => {
+  console.log(req.user);
+  try {
+    const user = await User.findById((req?.user)?.id as string).select('-password');
+    if (!user) return res.status(404).json({ message: "User not found" });
+    return res.json(user);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching user", error });
+  }
+};
