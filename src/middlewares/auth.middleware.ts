@@ -21,7 +21,6 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
 };
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
-  console.log('req.user', req.user)
   if (((req as any).user)?.role !== 'admin') {
     res.status(403).json({ message: 'Admin only can access' });
     return;

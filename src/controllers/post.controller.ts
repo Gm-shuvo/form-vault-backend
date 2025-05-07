@@ -5,7 +5,6 @@ import { Post } from '../models/post.model';
 import streamifier from 'streamifier';
 
 const uploadToCloudinary = (fileBuffer: Buffer): Promise<string> => {
-  console.log('fileBuffer', fileBuffer);
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       { folder: 'posts', resource_type: 'auto' },
@@ -95,9 +94,6 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
       res.status(404).json({ message: "Post not found" });
       return;
     }
-
-    console.log("post", post);
-    console.log("user", req.user);
 
     const user = req.user as { _id: string; role: string };
     // Optional: Check ownership or admin role

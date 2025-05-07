@@ -40,7 +40,6 @@ export const logout = (req: Request, res: Response): Response => {
 };
 
 export const getMe = async (req: Request, res: Response): Promise<Response> => {
-  console.log(req.user);
   try {
     const user = await User.findById((req?.user)?.id as string).select('-password');
     if (!user) return res.status(404).json({ message: "User not found" });
