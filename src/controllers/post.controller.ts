@@ -2,11 +2,13 @@
 import { Request, Response } from 'express';
 import cloudinary from '../config/cloudinary';
 import { Post } from '../models/post.model';
+import streamifier from 'streamifier';
 
 const uploadToCloudinary = (fileBuffer: Buffer): Promise<string> => {
+  console.log('fileBuffer', fileBuffer);
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder: 'posts' },
+      { folder: 'posts', resource_type: 'auto' },
       (error, result) => {
         if (error) return reject(error);
         if (!result) return reject(new Error('Upload failed'));
@@ -14,7 +16,7 @@ const uploadToCloudinary = (fileBuffer: Buffer): Promise<string> => {
       }
     );
 
-    stream.end(fileBuffer);
+    streamifier.createReadStream(fileBuffer).pipe(stream);
   });
 };
 
