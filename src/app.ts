@@ -3,9 +3,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes';
 import postRoutes from './routes/post.routes';
+import { allowedHosts } from './utils/allowedhost';
 
 const app = express();
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:8080'], credentials: true }));
+app.use(cors({ origin: allowedHosts, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 

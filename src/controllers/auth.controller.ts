@@ -27,13 +27,18 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response): Promise<Response> => {
   const { username, password } = req.body;
   const user = await User.findOne({ username }) as any;
+  
   if (!user || !(await user.comparePassword(password))) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
-  return res.cookie('token', token, { httpOnly: true }).json({ user });
+
+  res.cookie('token', token);
+
+  return res.json({ user });
 };
+
 
 export const logout = (req: Request, res: Response): Response => {
   return res.clearCookie('token').json({ message: 'Logged out' });
